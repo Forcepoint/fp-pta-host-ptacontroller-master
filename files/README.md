@@ -13,9 +13,6 @@ https://github.com/Forcepoint/fp-pta-ansible-docker-jenkins#plugins
 * **san.cnf** is a certificate configuration file which you can use with openssl to generate a
 key and CSR for your certificate. You should modify this file to reflect your company's
 particulars and the website it is to serve up. 
-
-Keep 
-
 You can then this file with an openssl command to generate the private key and CSR files.
 
         openssl req -new -newkey rsa:2048 -nodes -keyout ptacontroller.company.com.key -out ptacontroller.company.com.csr -config san.cnf

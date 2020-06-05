@@ -1,0 +1,48 @@
+- src: https://github.com/Forcepoint/fp-pta-ansible-general-config.git
+  name: general-config
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-terraform.git
+  name: terraform
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-backup-local.git
+  name: backup-local
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-extra-disk.git
+  name: extra-disk
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-docker-host.git
+  name: docker-host
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-docker-jenkins.git
+  name: docker-jenkins
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-jenkins-node-ssh.git
+  name: jenkins-node-ssh
+  scm: git
+  version: "master"
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-jfrog-cli.git
+  name: jfrog-cli
+  scm: git
+  version: "master"
+
+# These are referenced by other roles above, but they still have to be listed
+# because ansible has a bug that causes the dependent roles to not be updated
+# once they've been installed, even if the tip of branch has changed.
+
+- src: https://github.com/Forcepoint/fp-pta-ansible-ntp.git
+  name: ntp
+  scm: git
+  version: "master"

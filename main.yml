@@ -1,0 +1,54 @@
+---
+
+- name: link SSH keys
+  hosts: PTAController
+  tasks:
+    - name: link id_rsa
+      file:
+        path: ~/.ssh/id_rsa
+        src: /mnt/extra/service/id_rsa
+        state: link
+    - name: link id_rsa.pub
+      file:
+        path: ~/.ssh/id_rsa.pub
+        src: /mnt/extra/service/id_rsa.pub
+        state: link
+    - name: link root id_rsa
+      become: yes
+      file:
+        path: /root/.ssh/id_rsa
+        src: /mnt/extra/service/id_rsa
+        state: link
+    - name: link root id_rsa.pub
+      become: yes
+      file:
+        path: /root/.ssh/id_rsa.pub
+        src: /mnt/extra/service/id_rsa.pub
+        state: link
+
+- name: general configuration
+  hosts: PTAController
+  vars:
+    ntp_server: ntp.company.com
+  roles:
+    - role: general-config
+    - role: jfrog-cli
+
+- name: install terraform
+  hosts: PTAController
+  roles:
+    - role: terraform
+
+- name: configure docker
+  hosts: PTAController
+  roles:
+  - role: docker-host
+
+- name: backup the jenkins master config
+  hosts: PTAController
+  vars:
+    backup_local_name: jenkins_home
+    backup_local_target: /mnt/extra/docker/jenkins_home
+    backup_local_destination: /mnt/extra/backups
+  roles:
+  - role: backup-local

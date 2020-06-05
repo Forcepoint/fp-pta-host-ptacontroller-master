@@ -1,0 +1,39 @@
+---
+
+- name: configure jenkins master
+  hosts: PTAController
+  vars:
+    docker_jenkins_dns: ptacontroller.company.com
+    docker_jenkins_version_jenkins: "2.222.4-jdk11"
+    docker_jenkins_root_data_dir: /mnt/extra/docker
+    docker_jenkins_footer_url: https://www.company.com
+    docker_jenkins_plugins: "{{ playbook_dir }}/files/plugins.txt"
+    docker_jenkins_casc_path: "{{ playbook_dir }}/templates/jenkins.yaml"
+    docker_jenkins_certs_to_trust:
+      - { path: '/etc/pki/ca-trust/custom/internal_ca.pem', remote_src: yes }
+  roles:
+  - role: docker-jenkins
+
+# You're running the Jenkins master in a docker container. Using the master for executors is bad form, also
+# even if you did it doesn't have access to the local file system which contains the ansible vault password file.
+# To allow you to utilize Ansible and its configured files, you need a node connection to the same machine.
+# You could setup a second VM and make that be the executor as that is best practice, but I figured that
+# since only your PTA administrators should have access to this Jenkins instance, it's not gonna hurt anything.
+# Also, this Jenkins node can't be configured/added as part of the Jenkinsfile process as it will crash every time.
+- name: configure jenkins node
+  hosts: PTAController
+  vars:
+    jenkins_node_name: PTAController
+    jenkins_node_master_url: https://ptacontroller.company.com
+    jenkins_node_master_user: "{{ lookup('env','JENKINS_MASTER_USERNAME') }}"
+    jenkins_node_master_password: "{{ lookup('env','JENKINS_MASTER_PASSWORD') }}"
+    jenkins_node_user: "{{ lookup('env','JENKINS_NODE_USERNAME') }}"
+    jenkins_node_user_password: "{{ lookup('env','JENKINS_NODE_PASSWORD') }}"
+    jenkins_node_credential: jenkins-nodes-ssh-self
+    jenkins_node_labels: "PTAController pta-controller linux"
+    jenkins_node_executors: 10
+    jenkins_node_path: /mnt/extra/jenkins_node
+    jenkins_node_java_openjdk_version: 11
+    jenkins_node_master_ca_cert: /etc/pki/ca-trust/custom/internal_ca.pem
+  roles:
+  - role: jenkins-node-ssh

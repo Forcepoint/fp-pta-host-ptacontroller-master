@@ -1,0 +1,6 @@
+- name: setup extra disk
+  hosts: PTAController
+  vars:
+    extra_disk_mount_path: /mnt/extra
+  roles:
+  - role: extra-disk
