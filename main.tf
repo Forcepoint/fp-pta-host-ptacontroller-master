@@ -34,7 +34,6 @@ module "PTAController" {
   time_zone                 = "MST7MDT"
   vlan_main                 = "VLAN-192"
   vsphere_datastore         = "DS01"
-  vsphere_datastore_cluster = "DS Cluster"
   vsphere_compute_cluster   = "General Cluster"
   vsphere_datacenter        = "DC"
 }
