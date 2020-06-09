@@ -6,6 +6,8 @@ except for the one to create this VM (chicken-and-egg problem).
 Once you have setup the extra disk below, you can safely taint this VM and recreate it again as
 all the pertinent information is stored on the secondary disk which persists.
 
+For information about PTA and how to use it please visit https://github.com/Forcepoint/fp-pta-overview/blob/master/README.md
+
 ## First Run
 
 Follow these steps the very first time you setup the PTAController. This assumes you have Artifactory configured
