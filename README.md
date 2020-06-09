@@ -12,6 +12,11 @@ Follow these steps the very first time you setup the PTAController. This assumes
 as the backend. If you do not, adjust the main.tf appropriately and be prepared to get that terraform state
 backed up into Artifactory once you do have Artifactory up and running.
 
+1. Modify main.tf appropriately for your vsphere instance. 
+
+1. Modify jenkins.yml appropriately for how you want to configure your Jenkins instance.
+Review the specifics of creating a jenkins master from the ansible role https://github.com/Forcepoint/fp-pta-ansible-docker-jenkins
+
 1. Run the following commands to run terraform...
    
        set ARTIFACTORY_USERNAME=FLAST
@@ -111,3 +116,13 @@ This assumes you have Artifactory setup as the terraform backend setup and your 
 1. Finally, run this command...
 
        ansible-playbook -i hosts --vault-password-file /mnt/extra/service/vault_password.txt jenkins.yml
+
+## Jenkins
+
+Once you've got your PTA Controller Jenkins system setup, you'll want to run this job through
+Jenkins itself, at least, the part that doesn't reconfigure Jenkins itself.
+
+* Be sure you create all of the credential objects referred to in the Jenkinsfile.
+
+* At the bottom of the Jenkinsfile, ensure you change the email address to your PTA 
+administrator's address so they get failure notifications.
